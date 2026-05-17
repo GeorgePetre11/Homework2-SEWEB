@@ -50,6 +50,9 @@ The `/books` page lists all books from the Jena model in a table with clickable 
 
 ### Rares
 
+- Queries: `sparql_owl`
+- Screenshots of query results: `docs/screenshots/ex6/`
+
 ## Task 7
 
 > Build a chatbot that allows the user to perform operations: floating chat window, context-aware conversation starters, RAG-enhanced responses, and book search by theme/author. (4 pt)
