@@ -1,0 +1,80 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX book: <http://example.org/book#>
+
+SELECT ?book ?title ?levelLabel
+WHERE {
+  ?book rdf:type book:Book ;
+        rdfs:label ?title ;
+        book:hasReadingLevel ?level .
+  OPTIONAL { ?level rdfs:label ?levelLabel }
+}
+ORDER BY ?title
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX book: <http://example.org/book#>
+
+SELECT ?title (GROUP_CONCAT(COALESCE(?genreLabel, STR(?genre)); separator=", ") AS ?genres)
+WHERE {
+  ?b rdf:type book:Book ;
+     rdfs:label ?title ;
+     book:hasGenre ?genre .
+  OPTIONAL { ?genre rdfs:label ?genreLabel }
+}
+GROUP BY ?title
+ORDER BY ?title
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX book: <http://example.org/book#>
+PREFIX user: <http://example.org/user#>
+
+SELECT ?userName ?preferredGenreLabel ?readingLevelLabel
+WHERE {
+  ?u rdf:type user:User ;
+     rdfs:label ?userName ;
+     user:prefersGenre ?g ;
+     user:hasReadingLevel ?rl .
+  OPTIONAL { ?g rdfs:label ?preferredGenreLabel }
+  OPTIONAL { ?rl rdfs:label ?readingLevelLabel }
+}
+ORDER BY ?userName
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX book: <http://example.org/book#>
+PREFIX user: <http://example.org/user#>
+
+SELECT ?userName ?bookTitle
+WHERE {
+  ?u rdf:type user:User ;
+     rdfs:label ?userName ;
+     user:prefersGenre ?g ;
+    user:hasReadingLevel ?rl .
+  ?b rdf:type book:Book ;
+     rdfs:label ?bookTitle ;
+    book:hasGenre ?g .
+}
+ORDER BY ?userName ?bookTitle
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX book: <http://example.org/book#>
+PREFIX user: <http://example.org/user#>
+
+SELECT ?userName ?bookTitle
+WHERE {
+  ?u rdf:type user:User ;
+    rdfs:label ?userName ;
+    user:hasReadingLevel ?rl .
+
+  ?b rdf:type book:Book ;
+    rdfs:label ?bookTitle ;
+    book:hasReadingLevel ?rl .
+}
+ORDER BY ?userName ?bookTitle
