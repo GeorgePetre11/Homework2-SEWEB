@@ -9,7 +9,7 @@ Book recommendation system built around RDF/XML, OWL ontologies, SPARQL, and a R
 
 ## Link to GitHub
 
-- 
+https://github.com/GeorgePetre11/Homework2-SEWEB
 
 ## Task 1 — George
 
