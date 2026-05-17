@@ -39,10 +39,19 @@ The `/books` page lists all books from the Jena model in a table with clickable 
 
 > Create an OWL ontology for the book recommendation system presented in the first exercise. (1.5 pt)
 
+### Rares
+
+- OWL ontology: `ontology/book-recommendation.owl`
+- Screenshots/exported graphs: `docs/screenshots/`
+
 ## Task 6
 
 > Make 5 SPARQL queries for your ontology and save them in a txt file with the name "sparql_owl". (1 pt)
 
+### Rares
+
 ## Task 7
 
 > Build a chatbot that allows the user to perform operations: floating chat window, context-aware conversation starters, RAG-enhanced responses, and book search by theme/author. (4 pt)
+
+### Rares
