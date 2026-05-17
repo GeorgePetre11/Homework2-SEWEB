@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Upload RDF/XML</title>
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f5f5f5; }
+        nav { background: #2c3e50; padding: 12px 24px; display: flex; gap: 20px; align-items: center; }
+        nav a { color: #ecf0f1; text-decoration: none; font-size: 15px; padding: 6px 14px; border-radius: 4px; }
+        nav a:hover { background: #34495e; }
+        nav .brand { font-weight: 700; font-size: 18px; margin-right: 20px; }
+        .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+        h1 { color: #2c3e50; }
+        .upload-area { background: white; border: 2px dashed #bdc3c7; border-radius: 8px; padding: 40px; text-align: center; margin: 20px 0; cursor: pointer; transition: border-color 0.2s; }
+        .upload-area:hover { border-color: #3498db; }
+        .upload-area.dragover { border-color: #2ecc71; background: #f0fff4; }
+        .upload-area input[type="file"] { display: none; }
+        .upload-area p { color: #7f8c8d; margin: 8px 0; }
+        .upload-area .icon { font-size: 48px; color: #bdc3c7; }
+        .btn { background: #3498db; color: white; border: none; padding: 10px 24px; border-radius: 4px; cursor: pointer; font-size: 15px; }
+        .btn:hover { background: #2980b9; }
+        .btn:disabled { background: #bdc3c7; cursor: not-allowed; }
+        #graph-container { width: 100%; height: 500px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin: 20px 0; display: none; }
+        .triples-table { width: 100%; border-collapse: collapse; margin: 20px 0; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .triples-table th { background: #2c3e50; color: white; padding: 12px 16px; text-align: left; }
+        .triples-table td { padding: 10px 16px; border-bottom: 1px solid #ecf0f1; }
+        .triples-table tr:hover { background: #f8f9fa; }
+        .filename { color: #2c3e50; font-weight: 600; margin: 8px 0; }
+        .stats { color: #7f8c8d; font-size: 14px; margin: 4px 0; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a class="brand" href="/">BookRec</a>
+        <a href="/upload">Upload RDF</a>
+        <a href="/books">Books</a>
+    </nav>
+    <div class="container">
+        <h1>Upload &amp; Visualize RDF Graph</h1>
+
+        <div class="upload-area" id="drop-zone" onclick="document.getElementById('file-input').click()">
+            <div class="icon">&#128194;</div>
+            <p><strong>Click to select</strong> or drag &amp; drop an RDF/XML file</p>
+            <p class="filename" id="file-name"></p>
+            <input type="file" id="file-input" accept=".rdf,.xml,.owl"/>
+        </div>
+        <button class="btn" id="upload-btn" disabled onclick="uploadFile()">Upload &amp; Visualize</button>
+
+        <div id="graph-container"></div>
+
+        <div id="triples-section" style="display:none">
+            <h2>RDF Triples</h2>
+            <p class="stats" id="stats"></p>
+            <table class="triples-table">
+                <thead><tr><th>Subject</th><th>Predicate</th><th>Object</th></tr></thead>
+                <tbody id="triples-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const uploadBtn = document.getElementById('upload-btn');
+        let selectedFile = null;
+
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                selectedFile = this.files[0];
+                document.getElementById('file-name').textContent = selectedFile.name;
+                uploadBtn.disabled = false;
+            }
+        });
+
+        dropZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', function() {
+            this.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) {
+                selectedFile = e.dataTransfer.files[0];
+                document.getElementById('file-name').textContent = selectedFile.name;
+                uploadBtn.disabled = false;
+            }
+        });
+
+        function uploadFile() {
+            if (!selectedFile) return;
+            uploadBtn.disabled = true;
+            uploadBtn.textContent = 'Processing...';
+
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+
+            fetch('/upload', { method: 'POST', body: formData })
+                .then(r => r.json())
+                .then(data => {
+                    renderGraph(data.nodes, data.edges);
+                    renderTriples(data.triples);
+                    uploadBtn.textContent = 'Upload & Visualize';
+                    uploadBtn.disabled = false;
+                })
+                .catch(err => {
+                    alert('Error parsing RDF file: ' + err.message);
+                    uploadBtn.textContent = 'Upload & Visualize';
+                    uploadBtn.disabled = false;
+                });
+        }
+
+        function renderGraph(nodes, edges) {
+            const container = document.getElementById('graph-container');
+            container.style.display = 'block';
+
+            const options = {
+                nodes: {
+                    shape: 'dot',
+                    size: 18,
+                    font: { size: 13, face: 'Segoe UI' },
+                    borderWidth: 2,
+                    color: { background: '#3498db', border: '#2980b9', highlight: { background: '#2ecc71', border: '#27ae60' } }
+                },
+                edges: {
+                    arrows: 'to',
+                    font: { size: 11, align: 'middle', face: 'Segoe UI' },
+                    color: { color: '#95a5a6', highlight: '#2c3e50' },
+                    smooth: { type: 'curvedCW', roundness: 0.2 }
+                },
+                physics: {
+                    solver: 'forceAtlas2Based',
+                    forceAtlas2Based: { gravitationalConstant: -40, centralGravity: 0.005, springLength: 150 }
+                },
+                interaction: { hover: true, tooltipDelay: 200 }
+            };
+
+            new vis.Network(container, { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) }, options);
+        }
+
+        function renderTriples(triples) {
+            const section = document.getElementById('triples-section');
+            section.style.display = 'block';
+            document.getElementById('stats').textContent = triples.length + ' triples found';
+
+            const tbody = document.getElementById('triples-body');
+            tbody.innerHTML = '';
+            triples.forEach(t => {
+                const row = document.createElement('tr');
+                row.innerHTML = '<td>' + escapeHtml(t.subject) + '</td><td>' + escapeHtml(t.predicate) + '</td><td>' + escapeHtml(t.object) + '</td>';
+                tbody.appendChild(row);
+            });
+        }
+
+        function escapeHtml(s) {
+            const d = document.createElement('div');
+            d.textContent = s;
+            return d.innerHTML;
+        }
+    </script>
+</body>
+</html>
