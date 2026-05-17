@@ -35,14 +35,18 @@ Spring Boot 3 + Thymeleaf webapp with Apache Jena for RDF parsing. The upload pa
 
 The `/books` page lists all books from the Jena model in a table with clickable titles, genres, and reading levels. Each title links to a dedicated detail page at `/books/{id}` showing the book's RDF URI, genres as badges, reading level, and an edit button. All data is read from the in-memory Jena `Model` via `BookService`.
 
-## Task 5
+## Task 5 - Rares
 
 > Create an OWL ontology for the book recommendation system presented in the first exercise. (1.5 pt)
 
-## Task 6
+- OWL ontology: `ontology/book-recommendation.owl`
+- Screenshots/exported graphs: `docs/screenshots/`
+
+## Task 6 - Rares
 
 > Make 5 SPARQL queries for your ontology and save them in a txt file with the name "sparql_owl". (1 pt)
 
-## Task 7
+## Task 7 - Rares
 
 > Build a chatbot that allows the user to perform operations: floating chat window, context-aware conversation starters, RAG-enhanced responses, and book search by theme/author. (4 pt)
+
