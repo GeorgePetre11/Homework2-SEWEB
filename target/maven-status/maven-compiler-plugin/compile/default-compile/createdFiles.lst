@@ -1,5 +1,7 @@
 org/example/controller/RdfController.class
-org/example/model/RdfTriple.class
-org/example/Application.class
 org/example/service/RdfService.class
 org/example/model/GraphData.class
+org/example/model/RdfTriple.class
+org/example/Application.class
+org/example/controller/BookController.class
+org/example/service/BookService.class

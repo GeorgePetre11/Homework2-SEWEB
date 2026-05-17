@@ -1,5 +1,7 @@
 /Users/jorjacus/Documents/Facultate/SeWeb/HW2/src/main/java/org/example/model/GraphData.java
 /Users/jorjacus/Documents/Facultate/SeWeb/HW2/src/main/java/org/example/model/RdfTriple.java
 /Users/jorjacus/Documents/Facultate/SeWeb/HW2/src/main/java/org/example/service/RdfService.java
+/Users/jorjacus/Documents/Facultate/SeWeb/HW2/src/main/java/org/example/controller/BookController.java
 /Users/jorjacus/Documents/Facultate/SeWeb/HW2/src/main/java/org/example/Application.java
+/Users/jorjacus/Documents/Facultate/SeWeb/HW2/src/main/java/org/example/service/BookService.java
 /Users/jorjacus/Documents/Facultate/SeWeb/HW2/src/main/java/org/example/controller/RdfController.java
