@@ -23,9 +23,11 @@ Modeled the book recommendation scenario in `books.rdf` with RDFS classes (Book,
 
 Spring Boot 3 + Thymeleaf webapp with Apache Jena for RDF parsing. The upload page (`/upload`) accepts an RDF/XML file via drag-and-drop or file picker, parses it with `RdfService` using Jena's `ModelFactory`, and returns all triples as JSON. The frontend renders an interactive force-directed graph using **vis.js** (nodes for subjects/objects, labeled directed edges for predicates) and a triples table below the graph. Tested with the `books.rdf` file from Task 1.
 
-## Task 3
+## Task 3 — George
 
-> In the web application, add a feature to let you modify or add a book. (0.5 pt)
+> In the web application, add a feature to let you modify or add a book. Test the features for the book "Harry Potter" (add book) and "Hunger Games" (change reading level). You must use RDF and JENA API / other RDF API in order to write, read, query and perform operations. (0.5 pt)
+
+`BookService` manages the Jena `Model` in memory (loaded from `books.rdf` at startup). Adding a book creates a new `book:Book` resource with genre and reading level properties; editing removes the old property statements and writes new ones. Both operations persist changes back to `books.rdf` via Jena's `model.write()`. The add form (`/books/add`) and edit form (`/books/edit/{id}`) use Thymeleaf with dropdowns for genres (multi-select) and reading level. Tested by adding "Harry Potter" (Fantasy, Intermediate) and changing "Hunger Games" from Beginner to Intermediate.
 
 ## Task 4
 
