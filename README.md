@@ -46,6 +46,11 @@ The `/books` page lists all books from the Jena model in a table with clickable 
 
 > Make 5 SPARQL queries for your ontology and save them in a txt file with the name "sparql_owl". (1 pt)
 
+Created 5 SPARQL queries for the OWL ontology (books, genres, users, and simple recommendation-like matches based on shared genre/reading level). The queries are saved in `sparql_owl` and can be executed in Protégé (SPARQL Query tab) or GraphDB.
+
+- Queries file: `sparql_owl`
+- Screenshots of executed results: `docs/screenshots/ex6/`
+
 ## Task 7 - Rares
 
 > Build a chatbot that allows the user to perform operations: floating chat window, context-aware conversation starters, RAG-enhanced responses, and book search by theme/author. (4 pt)
