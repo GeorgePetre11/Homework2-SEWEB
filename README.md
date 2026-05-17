@@ -17,9 +17,11 @@ Book recommendation system built around RDF/XML, OWL ontologies, SPARQL, and a R
 
 Modeled the book recommendation scenario in `books.rdf` with RDFS classes (Book, User, Genre, ReadingLevel), properties (hasGenre, hasReadingLevel, prefersGenre, isRecommendedTo), and all the data from the assignment: users Alice and Bob with their reading levels and preferred genres, and books Dune, The Silent Patient, and Hunger Games with their genres and reading levels.
 
-## Task 2
+## Task 2 — George
 
-> Add a feature to your web application that allows the user to upload a RDF/XML file and visualize its RDF graph. (1 pt)
+> Add a feature to your web application that allows the user to upload a RDF/XML file and visualize its RDF graph. You may use Jung or a similar API. Test the feature with the file created at point 1. (1 pt)
+
+Spring Boot 3 + Thymeleaf webapp with Apache Jena for RDF parsing. The upload page (`/upload`) accepts an RDF/XML file via drag-and-drop or file picker, parses it with `RdfService` using Jena's `ModelFactory`, and returns all triples as JSON. The frontend renders an interactive force-directed graph using **vis.js** (nodes for subjects/objects, labeled directed edges for predicates) and a triples table below the graph. Tested with the `books.rdf` file from Task 1.
 
 ## Task 3
 
