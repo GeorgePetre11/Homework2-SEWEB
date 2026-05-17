@@ -29,9 +29,11 @@ Spring Boot 3 + Thymeleaf webapp with Apache Jena for RDF parsing. The upload pa
 
 `BookService` manages the Jena `Model` in memory (loaded from `books.rdf` at startup). Adding a book creates a new `book:Book` resource with genre and reading level properties; editing removes the old property statements and writes new ones. Both operations persist changes back to `books.rdf` via Jena's `model.write()`. The add form (`/books/add`) and edit form (`/books/edit/{id}`) use Thymeleaf with dropdowns for genres (multi-select) and reading level. Tested by adding "Harry Potter" (Fantasy, Intermediate) and changing "Hunger Games" from Beginner to Intermediate.
 
-## Task 4
+## Task 4 — George
 
-> In the web application, list all the available books and provide a dedicated page for each book. (1 pt)
+> In the web application, list all the available books and provide a dedicated page for each book. You have to use RDF and JENA API / other RDF API in order to write, read, query and perform operations. (0.5pt for listing, 0.5pt for book info page)
+
+The `/books` page lists all books from the Jena model in a table with clickable titles, genres, and reading levels. Each title links to a dedicated detail page at `/books/{id}` showing the book's RDF URI, genres as badges, reading level, and an edit button. All data is read from the in-memory Jena `Model` via `BookService`.
 
 ## Task 5
 

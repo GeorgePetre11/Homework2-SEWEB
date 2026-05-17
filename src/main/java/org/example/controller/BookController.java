@@ -45,6 +45,14 @@ public class BookController {
         return "redirect:/books";
     }
 
+    @GetMapping("/books/{id}")
+    public String bookDetail(@PathVariable String id, Model model) {
+        Map<String, String> book = bookService.getBook(id);
+        if (book == null) return "redirect:/books";
+        model.addAttribute("book", book);
+        return "book-detail";
+    }
+
     @GetMapping("/books/edit/{id}")
     public String editBookForm(@PathVariable String id, Model model) {
         Map<String, String> book = bookService.getBook(id);
