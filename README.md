@@ -6,6 +6,7 @@ Book recommendation system built around RDF/XML, OWL ontologies, SPARQL, and a R
 
 - Petre George-Alexandru
 - Ionescu Rares-Andrei
+- Leonte Robert
 
 ## Link to GitHub
 
