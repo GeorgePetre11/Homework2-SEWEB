@@ -24,6 +24,7 @@ public class BookController {
     @GetMapping("/books")
     public String listBooks(Model model) {
         model.addAttribute("books", bookService.listBooks());
+        model.addAttribute("pageContext", Map.of("page", "books"));
         return "books";
     }
 
@@ -31,6 +32,7 @@ public class BookController {
     public String addBookForm(Model model) {
         model.addAttribute("genres", bookService.getAvailableGenres());
         model.addAttribute("levels", bookService.getAvailableLevels());
+        model.addAttribute("pageContext", Map.of("page", "book-add"));
         return "book-add";
     }
 
@@ -51,6 +53,8 @@ public class BookController {
         Map<String, String> book = bookService.getBook(id);
         if (book == null) return "redirect:/books";
         model.addAttribute("book", book);
+        model.addAttribute("pageContext",
+            Map.of("page", "book-detail", "id", id, "title", book.getOrDefault("label", id)));
         return "book-detail";
     }
 
@@ -61,6 +65,8 @@ public class BookController {
         model.addAttribute("book", book);
         model.addAttribute("genres", bookService.getAvailableGenres());
         model.addAttribute("levels", bookService.getAvailableLevels());
+        model.addAttribute("pageContext",
+            Map.of("page", "book-edit", "id", id, "title", book.getOrDefault("label", id)));
         return "book-edit";
     }
 
