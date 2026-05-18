@@ -55,3 +55,24 @@ Created 5 SPARQL queries for the OWL ontology (books, genres, users, and simple 
 
 > Build a chatbot that allows the user to perform operations: floating chat window, context-aware conversation starters, RAG-enhanced responses, and book search by theme/author. (4 pt)
 
+Floating chat widget (Thymeleaf fragment `templates/fragments/chatbot.html`) included by every page. The frontend (`static/js/chatbot.js`) reads a per-page `pageContext` object that the server JSON-serializes into the page via `th:inline="javascript"`, fetches three context-aware starters from `GET /chat/starters`, and sends user messages to `POST /chat`. Chat history is kept in the browser's `localStorage` so it survives navigation.
+
+The backend (`ChatService`) implements a RAG pipeline using **LangChain4j 1.0.1**:
+- **Embeddings:** in-process `all-MiniLM-L6-v2` (ONNX, no API key).
+- **Vector store:** `InMemoryEmbeddingStore`, rebuilt at startup and after every book add/edit from `books.rdf` via Jena (`EmbeddingIndexService`). One chunk per book ("Title/Author/Genres/Reading level") and one per user (Alice, Bob).
+- **LLM:** OpenRouter free tier (default `meta-llama/llama-3.3-8b-instruct:free`), called through LangChain4j's OpenAI client with a custom base URL.
+- **Prompt:** the system message instructs the model to answer ONLY from the retrieved context and admit ignorance otherwise — this is what makes the responses grounded in the RDF rather than the model's pretraining.
+
+The author/theme query ("What book has the author Frank Herbert and the theme Science Fiction?") is satisfied because each book's embedding chunk includes both fields, so the similarity search retrieves Dune for that query.
+
+### Setup
+1. Sign up for a free key at https://openrouter.ai/ and create a key with access to free models.
+2. Provide it either as an environment variable (preferred):
+   ```powershell
+   $env:OPENROUTER_API_KEY = "sk-or-..."
+   ```
+   …or in `application-local.properties` (gitignored):
+   ```
+   openrouter.api.key=sk-or-...
+   ```
+3. Run `mvn spring-boot:run` and open `http://localhost:8080/`. Click the 💬 button bottom-right.
