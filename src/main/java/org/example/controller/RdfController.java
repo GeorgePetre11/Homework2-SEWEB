@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+
 @Controller
 public class RdfController {
 
@@ -20,12 +22,14 @@ public class RdfController {
     }
 
     @GetMapping("/")
-    public String index() {
+    public String index(Model model) {
+        model.addAttribute("pageContext", Map.of("page", "home"));
         return "index";
     }
 
     @GetMapping("/upload")
-    public String uploadPage() {
+    public String uploadPage(Model model) {
+        model.addAttribute("pageContext", Map.of("page", "upload"));
         return "upload";
     }
 

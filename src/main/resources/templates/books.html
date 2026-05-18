@@ -40,11 +40,12 @@
 
         <table>
             <thead>
-                <tr><th>Title</th><th>Genres</th><th>Reading Level</th><th>Actions</th></tr>
+                <tr><th>Title</th><th>Author</th><th>Genres</th><th>Reading Level</th><th>Actions</th></tr>
             </thead>
             <tbody>
                 <tr th:each="book : ${books}">
                     <td><a th:href="@{/books/{id}(id=${book.id})}" th:text="${book.label}" style="color:#3498db; text-decoration:none; font-weight:600;"></a></td>
+                    <td th:text="${book.author}"></td>
                     <td th:text="${book.genres}"></td>
                     <td th:text="${book.readingLevel}"></td>
                     <td class="actions">
@@ -54,5 +55,6 @@
             </tbody>
         </table>
     </div>
+    <div th:replace="~{fragments/chatbot :: widget(${pageContext})}"></div>
 </body>
 </html>
