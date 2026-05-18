@@ -37,10 +37,11 @@ public class BookController {
     @PostMapping("/books/add")
     public String addBook(@RequestParam String id,
                           @RequestParam String title,
+                          @RequestParam(required = false) String author,
                           @RequestParam List<String> genres,
                           @RequestParam String readingLevel,
                           RedirectAttributes flash) {
-        bookService.addBook(id, title, genres, readingLevel);
+        bookService.addBook(id, title, author, genres, readingLevel);
         flash.addFlashAttribute("message", "Book \"" + title + "\" added successfully.");
         return "redirect:/books";
     }
@@ -65,10 +66,11 @@ public class BookController {
 
     @PostMapping("/books/edit/{id}")
     public String editBook(@PathVariable String id,
+                           @RequestParam(required = false) String author,
                            @RequestParam List<String> genres,
                            @RequestParam String readingLevel,
                            RedirectAttributes flash) {
-        bookService.updateBook(id, genres, readingLevel);
+        bookService.updateBook(id, author, genres, readingLevel);
         flash.addFlashAttribute("message", "Book updated successfully.");
         return "redirect:/books";
     }

@@ -39,6 +39,10 @@
                 <div class="field-value" style="font-size:14px; color:#7f8c8d; font-family:monospace;" th:text="'http://example.org/book#' + ${book.id}"></div>
             </div>
             <div class="field">
+                <div class="field-label">Author</div>
+                <div class="field-value"><span th:text="${book.author}"></span></div>
+            </div>
+            <div class="field">
                 <div class="field-label">Genres</div>
                 <div class="field-value">
                     <span class="badge" th:each="genre : ${#strings.arraySplit(book.genres, ',')}" th:text="${genre}"></span>
