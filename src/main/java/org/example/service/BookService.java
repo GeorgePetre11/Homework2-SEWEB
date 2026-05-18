@@ -180,7 +180,7 @@ public class BookService {
         return List.of("Beginner", "Intermediate", "Advanced");
     }
 
-    public Model getModel() {
+    public synchronized Model getModel() {
         return model;
     }
 
