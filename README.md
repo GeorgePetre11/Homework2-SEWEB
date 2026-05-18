@@ -51,7 +51,7 @@ Created 5 SPARQL queries for the OWL ontology (books, genres, users, and simple 
 - Queries file: `sparql_owl`
 - Screenshots of executed results: `docs/screenshots/ex6/`
 
-## Task 7 - Rares
+## Task 7 - Robert
 
 > Build a chatbot that allows the user to perform operations: floating chat window, context-aware conversation starters, RAG-enhanced responses, and book search by theme/author. (4 pt)
 
