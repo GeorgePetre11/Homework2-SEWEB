@@ -21,6 +21,11 @@
         <rdfs:range rdf:resource="http://example.org/book#ReadingLevel"/>
     </rdf:Property>
 
+    <rdf:Property rdf:about="http://example.org/book#hasAuthor">
+        <rdfs:domain rdf:resource="http://example.org/book#Book"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </rdf:Property>
+
     <rdf:Property rdf:about="http://example.org/user#prefersGenre">
         <rdfs:domain rdf:resource="http://example.org/user#User"/>
         <rdfs:range rdf:resource="http://example.org/book#Genre"/>
@@ -78,6 +83,7 @@
 
     <book:Book rdf:about="http://example.org/book#Dune">
         <rdfs:label>Dune</rdfs:label>
+        <book:hasAuthor>Frank Herbert</book:hasAuthor>
         <book:hasGenre rdf:resource="http://example.org/book#ScienceFiction"/>
         <book:hasGenre rdf:resource="http://example.org/book#Fantasy"/>
         <book:hasReadingLevel rdf:resource="http://example.org/book#Advanced"/>
@@ -85,6 +91,7 @@
 
     <book:Book rdf:about="http://example.org/book#TheSilentPatient">
         <rdfs:label>The Silent Patient</rdfs:label>
+        <book:hasAuthor>Alex Michaelides</book:hasAuthor>
         <book:hasGenre rdf:resource="http://example.org/book#Mystery"/>
         <book:hasGenre rdf:resource="http://example.org/book#Murder"/>
         <book:hasReadingLevel rdf:resource="http://example.org/book#Intermediate"/>
@@ -92,6 +99,7 @@
 
     <book:Book rdf:about="http://example.org/book#HungerGames">
         <rdfs:label>Hunger Games</rdfs:label>
+        <book:hasAuthor>Suzanne Collins</book:hasAuthor>
         <book:hasGenre rdf:resource="http://example.org/book#ScienceFiction"/>
         <book:hasGenre rdf:resource="http://example.org/book#Fantasy"/>
         <book:hasReadingLevel rdf:resource="http://example.org/book#Beginner"/>

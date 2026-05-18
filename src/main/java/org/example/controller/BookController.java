@@ -24,6 +24,7 @@ public class BookController {
     @GetMapping("/books")
     public String listBooks(Model model) {
         model.addAttribute("books", bookService.listBooks());
+        model.addAttribute("pageContext", Map.of("page", "books"));
         return "books";
     }
 
@@ -31,16 +32,18 @@ public class BookController {
     public String addBookForm(Model model) {
         model.addAttribute("genres", bookService.getAvailableGenres());
         model.addAttribute("levels", bookService.getAvailableLevels());
+        model.addAttribute("pageContext", Map.of("page", "book-add"));
         return "book-add";
     }
 
     @PostMapping("/books/add")
     public String addBook(@RequestParam String id,
                           @RequestParam String title,
+                          @RequestParam(required = false) String author,
                           @RequestParam List<String> genres,
                           @RequestParam String readingLevel,
                           RedirectAttributes flash) {
-        bookService.addBook(id, title, genres, readingLevel);
+        bookService.addBook(id, title, author, genres, readingLevel);
         flash.addFlashAttribute("message", "Book \"" + title + "\" added successfully.");
         return "redirect:/books";
     }
@@ -50,6 +53,8 @@ public class BookController {
         Map<String, String> book = bookService.getBook(id);
         if (book == null) return "redirect:/books";
         model.addAttribute("book", book);
+        model.addAttribute("pageContext",
+            Map.of("page", "book-detail", "id", id, "title", book.getOrDefault("label", id)));
         return "book-detail";
     }
 
@@ -60,15 +65,18 @@ public class BookController {
         model.addAttribute("book", book);
         model.addAttribute("genres", bookService.getAvailableGenres());
         model.addAttribute("levels", bookService.getAvailableLevels());
+        model.addAttribute("pageContext",
+            Map.of("page", "book-edit", "id", id, "title", book.getOrDefault("label", id)));
         return "book-edit";
     }
 
     @PostMapping("/books/edit/{id}")
     public String editBook(@PathVariable String id,
+                           @RequestParam(required = false) String author,
                            @RequestParam List<String> genres,
                            @RequestParam String readingLevel,
                            RedirectAttributes flash) {
-        bookService.updateBook(id, genres, readingLevel);
+        bookService.updateBook(id, author, genres, readingLevel);
         flash.addFlashAttribute("message", "Book updated successfully.");
         return "redirect:/books";
     }
