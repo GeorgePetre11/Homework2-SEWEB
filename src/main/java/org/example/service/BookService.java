@@ -3,6 +3,7 @@ package org.example.service;
 import jakarta.annotation.PostConstruct;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.vocabulary.RDFS;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -17,6 +18,11 @@ public class BookService {
     private static final String HAS_AUTHOR = BOOK_NS + "hasAuthor";
 
     private Model model;
+    private final ObjectProvider<EmbeddingIndexService> indexProvider;
+
+    public BookService(ObjectProvider<EmbeddingIndexService> indexProvider) {
+        this.indexProvider = indexProvider;
+    }
 
     @PostConstruct
     public void init() {
@@ -96,6 +102,8 @@ public class BookService {
         book.addProperty(hasReadingLevel, levelRes);
 
         save();
+        EmbeddingIndexService idx = indexProvider.getIfAvailable();
+        if (idx != null) idx.rebuild();
     }
 
     public synchronized void updateBook(String id, String author,
@@ -127,6 +135,8 @@ public class BookService {
         }
 
         save();
+        EmbeddingIndexService idx = indexProvider.getIfAvailable();
+        if (idx != null) idx.rebuild();
     }
 
     public synchronized Map<String, String> getBook(String id) {
