@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="widget(pageContext)">
+    <div id="chatbot-root">
+        <button id="chatbot-toggle" type="button" aria-label="Open chat">💬</button>
+        <div id="chatbot-panel" hidden>
+            <header>
+                <span class="chatbot-title">Book assistant</span>
+                <label class="chatbot-as">as
+                    <select id="chatbot-user">
+                        <option value="Alice">Alice</option>
+                        <option value="Bob">Bob</option>
+                    </select>
+                </label>
+                <button id="chatbot-clear" type="button" title="Clear chat">↻</button>
+                <button id="chatbot-close" type="button" aria-label="Close">×</button>
+            </header>
+            <div id="chatbot-starters"></div>
+            <div id="chatbot-messages"></div>
+            <form id="chatbot-form">
+                <input id="chatbot-input" autocomplete="off"
+                       placeholder="Ask about a book…"/>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        window.__chatbotPageContext = /*[[${pageContext}]]*/ {};
+        /*]]>*/
+    </script>
+    <link rel="stylesheet" th:href="@{/css/chatbot.css}"/>
+    <script th:src="@{/js/chatbot.js}" defer></script>
+</th:block>
+</body>
+</html>
