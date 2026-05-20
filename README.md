@@ -1,4 +1,4 @@
-# Semantic Web — Homework 2
+# Web and Semantic Web Application Development — Homework 2
 
 Book recommendation system built around RDF/XML, OWL ontologies, SPARQL, and a RAG-powered chatbot.
 
